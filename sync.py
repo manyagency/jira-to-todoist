@@ -108,7 +108,7 @@ def main(label):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     try:
-        s.bind((HOST, PORT))
+        s.bind(('', 8080))
 
     except socket.error as msg:
         print('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
