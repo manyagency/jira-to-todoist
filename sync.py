@@ -7,6 +7,7 @@ import todoist
 JIRA_URL = getenv('JIRA_URL')
 JIRA_USERNAME = getenv('JIRA_USERNAME')
 JIRA_API_KEY = getenv('JIRA_API_KEY')
+JIRA_PROJECT = getenv('JIRA_PROJECT')
 TODOIST_TOKEN = getenv('TODOIST_TOKEN')
 TODOIST_LABEL = getenv('TODOIST_LABEL')
 
@@ -25,7 +26,7 @@ def get_jira_tasks(client=None):
     start_at = 0
     while keepScanning:
         got_issues = client.search_issues(
-            "assignee = currentUser() and project NOT IN (HELP, EXHELP)", maxResults=max_results, startAt=start_at)
+            "assignee = currentUser() and project IN (\"" + JIRA_PROJECT + "\")", maxResults=max_results, startAt=start_at)
         if len(got_issues) > 0:
             issues = issues + got_issues
             start_at += max_results
