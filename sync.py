@@ -3,6 +3,10 @@ from jira import JIRA
 from os import getenv
 from datetime import datetime
 import todoist
+import socket
+
+HOST = ''
+PORT = getenv('PORT')
 
 JIRA_URL = getenv('JIRA_URL')
 JIRA_USERNAME = getenv('JIRA_USERNAME')
@@ -100,6 +104,18 @@ def compare_tasks(api, project_id, todoist_tasks, jira_tasks):
 
 
 def main(label):
+    
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    try:
+        s.bind((HOST, PORT))
+
+    except socket.error as msg:
+        print('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
+        sys.exit()
+
+    print('Socket bind complete')
+
     print("starting sync at {}".format(datetime.now().isoformat()))
     api = get_todoist_api()
     # label = get_label_with_name(api, label)
